@@ -5,7 +5,7 @@
 JAR файл лежит в основной папке проекта. Напишите команду :
 
 ```
-java -jar students-assignment.jar
+java -jar students-assignment-1.0-SNAPSHOT.jar
 ```
 После выполнения программы в папке **/info** будет новый сформированный файл result.json.
 
