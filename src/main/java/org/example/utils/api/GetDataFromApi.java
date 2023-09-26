@@ -1,4 +1,4 @@
-package org.example.utils.input;
+package org.example.utils.api;
 
 import org.json.JSONArray;
 
@@ -8,7 +8,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class GetDataFromApi {
+public class GetDataFromApi implements GetterData {
 
     private final HttpClient client;
 
@@ -18,6 +18,7 @@ public class GetDataFromApi {
         this.client = httpClient;
     }
 
+    @Override
     public JSONArray getDataFromApi() throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                                          .GET()
