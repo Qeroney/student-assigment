@@ -6,8 +6,7 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RestoreMessages implements Restore {
-
+public class RestoreMessages implements Restore{
     @Override
     public List<String> fixMessages(List<Replacement> replacements, JSONArray data) {
         List<String> list = new ArrayList<>();

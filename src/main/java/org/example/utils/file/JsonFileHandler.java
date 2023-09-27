@@ -7,11 +7,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class JsonFileOperations implements FileOperations {
-
+public class JsonFileHandler implements JsonOperation {
     @Override
     public JSONArray readJsonArrayFromFile(String fileName) {
-
         try {
 
             String jsonFile = new String(Files.readAllBytes(Paths.get(fileName)));
@@ -21,9 +19,9 @@ public class JsonFileOperations implements FileOperations {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public void writeJsonArrayToFile(String filePath, JSONArray jsonArray) {
-
         try (FileWriter fileWriter = new FileWriter(filePath)) {
 
             fileWriter.write(jsonArray.toString());

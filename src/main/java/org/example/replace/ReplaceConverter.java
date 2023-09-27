@@ -7,8 +7,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReplaceConverter implements Replacer {
-
+public class ReplaceConverter implements Replacer  {
     @Override
     public List<Replacement> convertToReplacements(JSONArray json) {
         List<Replacement> list = new ArrayList<>();
