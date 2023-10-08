@@ -1,31 +1,30 @@
 package org.example.utils.file;
 
-import org.json.JSONArray;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.*;
+import java.util.List;
 
-public class JsonFileHandler implements JsonOperation {
+public class JsonFileHandler implements JsonOperation<String, List<String>, JSONArray> {
     @Override
     public JSONArray readJsonArrayFromFile(String fileName) {
-        try {
+        try (FileReader reader = new FileReader(fileName)) {
+            JSONParser parser = new JSONParser();
+            return (JSONArray) parser.parse(reader);
 
-            String jsonFile = new String(Files.readAllBytes(Paths.get(fileName)));
-            return new JSONArray(jsonFile);
-
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void writeJsonArrayToFile(String filePath, JSONArray jsonArray) {
+    public void writeJsonArrayToFile(List<String> json, String filePath) {
+
         try (FileWriter fileWriter = new FileWriter(filePath)) {
 
-            fileWriter.write(jsonArray.toString());
-
+            fileWriter.write(json.toString());
         } catch (IOException e) {
             throw new RuntimeException();
         }

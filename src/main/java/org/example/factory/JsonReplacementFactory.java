@@ -1,33 +1,33 @@
 package org.example.factory;
 
 import org.example.replace.ReplaceConverter;
-import org.example.replace.Replacer;
-import org.example.restore.Restore;
-import org.example.restore.RestoreMessages;
-import org.example.utils.api.GetDataFromApi;
-import org.example.utils.api.GetterData;
+import org.example.replace.ReplaceMapper;
+import org.example.restore.RestoreMapper;
+import org.example.restore.RestoreConverter;
+import org.example.utils.api.UrlDataProvider;
+import org.example.utils.api.DataProvider;
 import org.example.utils.file.*;
 
 import java.net.http.HttpClient;
 
 public class JsonReplacementFactory implements ReplacementFactory {
     @Override
-    public Replacer createReplaceConverter() {
+    public ReplaceMapper getReplaceConverterInstance() {
         return new ReplaceConverter();
     }
 
     @Override
-    public GetterData createGetterData() {
-        return new GetDataFromApi(HttpClient.newHttpClient());
+    public DataProvider getDataProviderInstance() {
+        return new UrlDataProvider(HttpClient.newHttpClient());
     }
 
     @Override
-    public Restore createRestoreMessages() {
-        return new RestoreMessages();
+    public RestoreMapper getRestoreConverterInstance() {
+        return new RestoreConverter();
     }
 
     @Override
-    public JsonOperation createFileOperation() {
+    public JsonOperation getJsonFileHandlerInstance() {
         return new JsonFileHandler();
     }
 }

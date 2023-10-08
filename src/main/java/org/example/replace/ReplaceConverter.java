@@ -1,31 +1,24 @@
 package org.example.replace;
 
 import org.example.model.Replacement;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReplaceConverter implements Replacer  {
+public class ReplaceConverter implements ReplaceMapper<List<JSONObject>, List<Replacement>> {
+
     @Override
-    public List<Replacement> convertToReplacements(JSONArray json) {
+    public List<Replacement> convertToReplacements(List<JSONObject> json) {
         List<Replacement> list = new ArrayList<>();
 
-        for (Object o : json) {
-            JSONObject replacementJson = (JSONObject) o;
-            Object replacementObj = replacementJson.get("replacement");
-            Object sourceObj = replacementJson.get("source");
+        for (JSONObject replacementJson : json) {
+            String replacement = (String) replacementJson.get("replacement");
+            String source = (String) replacementJson.get("source");
 
-            String replacement = replacementObj.toString();
-            String source;
-            if (sourceObj != null) {
-                source = sourceObj.toString();
-            } else {
-                source = null;
-            }
             list.add(0, new Replacement(replacement, source));
         }
         return list;
     }
 }
+

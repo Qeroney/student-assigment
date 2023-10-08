@@ -1,9 +1,8 @@
 package org.example.utils.file;
 
-import org.json.JSONArray;
+public interface JsonOperation<T1, T2, R> {
+    R readJsonArrayFromFile(T1 fileName);
 
-public interface JsonOperation {
-    JSONArray readJsonArrayFromFile(String fileName);
-    void writeJsonArrayToFile(String filePath, JSONArray jsonArray);
+    void writeJsonArrayToFile(T2 json, T1 filePath);
 
 }
