@@ -2,15 +2,17 @@ package org.example.file;
 
 import org.example.utils.file.JsonFileHandler;
 import org.example.utils.file.JsonOperation;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,19 +23,20 @@ public class JsonFileHandlerTest {
     private final JsonOperation operation = new JsonFileHandler();
 
     @Rule
-    private final TemporaryFolder temporaryFolder = new TemporaryFolder();
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Test
-    public void readFromFile() throws IOException {
+    public void readFromFile() throws IOException, ParseException {
         //Arrange
-        String file = "src/test/resources/test.json";
-        String expected = new String(Files.readAllBytes(Paths.get(file)));
+        FileReader reader = new FileReader("src/test/resources/replacement.json");
+        JSONParser parser = new JSONParser();
+        Object parse = parser.parse(reader);
 
         //Act
-        Object actual = operation.readJsonArrayFromFile("info/replacement.json");
+        Object actual = operation.readJsonArrayFromFile("src/test/resources/replacement.json");
 
         //Assert
-        assertEquals(expected, actual.toString());
+        assertEquals(parse, actual);
     }
 
     @Test

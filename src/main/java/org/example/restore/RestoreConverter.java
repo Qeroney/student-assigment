@@ -3,32 +3,32 @@ package org.example.restore;
 import org.example.model.Replacement;
 import org.json.simple.JSONArray;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class RestoreConverter implements RestoreMapper<List<Replacement>, JSONArray, List<String>> {
+public class RestoreConverter implements RestoreMapper<List<Replacement>, JSONArray, JSONArray> {
     @Override
-    public List<String> convertToMessages(List<Replacement> replacements, JSONArray data) {
-        List<String> list = new ArrayList<>();
+    public JSONArray convertToMessages(List<Replacement> replacements, JSONArray data) {
+        JSONArray array = new JSONArray();
 
-        for (int j = 0; j < data.size(); j++) {
-            String message = data.get(j).toString();
+        data.stream()
+            .map(Object::toString)
+            .forEach(originalMessage -> {
+                String newMessage = replacements.stream()
+                                                .reduce(originalMessage, (message, replacement) -> {
+                                                    String replacementStr = replacement.getReplacement();
+                                                    String sourceStr = replacement.getSource();
 
-            for (Replacement replacement : replacements) {
-                String replacementStr = replacement.getReplacement();
-                String sourceStr = replacement.getSource();
-
-                if (sourceStr == null) {
-                    message = message.replaceAll(replacementStr, "");
-                } else {
-                    message = message.replaceAll(replacementStr, sourceStr);
+                                                    if (sourceStr == null) {
+                                                        return message.toString().replace(replacementStr, "");
+                                                    } else {
+                                                        return message.toString().replace(replacementStr, sourceStr);
+                                                    }
+                                                }, (message, replacement) -> replacement).toString();
+                if (!newMessage.isEmpty()) {
+                    array.add(newMessage);
                 }
-            }
-            if (!message.isEmpty()) {
-                list.add(message);
-            }
-        }
-        return list;
+            });
+        return array;
     }
 }
 

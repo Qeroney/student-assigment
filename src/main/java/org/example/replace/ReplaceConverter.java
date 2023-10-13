@@ -12,12 +12,12 @@ public class ReplaceConverter implements ReplaceMapper<List<JSONObject>, List<Re
     public List<Replacement> convertToReplacements(List<JSONObject> json) {
         List<Replacement> list = new ArrayList<>();
 
-        for (JSONObject replacementJson : json) {
-            String replacement = (String) replacementJson.get("replacement");
-            String source = (String) replacementJson.get("source");
+        json.stream().forEach(repalcementJson -> {
+            String replacement = (String) repalcementJson.get("replacement");
+            String source = (String) repalcementJson.get("source");
 
             list.add(0, new Replacement(replacement, source));
-        }
+        });
         return list;
     }
 }

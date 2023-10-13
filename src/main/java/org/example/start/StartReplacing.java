@@ -19,7 +19,6 @@ public class StartReplacing {
     private final DataProvider<JSONArray> getData;
     private final RestoreMapper<List<Replacement>, JSONArray, List<String>> restore;
     private final JsonOperation<String, List<String>, JSONArray> operation;
-    private final JSONArray json = new JSONArray();
 
     public StartReplacing(ReplacementFactory factory) {
         this.replace = factory.getReplaceConverterInstance();
@@ -34,7 +33,6 @@ public class StartReplacing {
         List<Replacement> replacements = replace.convertToReplacements(file);
         JSONArray api = getData.getDataFromApi();
         List<String> messages = restore.convertToMessages(replacements, api);
-        json.addAll(messages);
-        operation.writeJsonArrayToFile(json, filePath);
+        operation.writeJsonArrayToFile(messages, filePath);
     }
 }
